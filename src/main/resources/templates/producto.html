@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link th:rel="stylesheet" type="text/css"
+	th:href="@{/css/misestilos.css}">
+<link th:rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}">
+<link th:rel="stylesheet"
+	th:href="@{/webjars/font-awesome/5.11.2/css/all.css} " />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Producto</title>
+</head>
+<body>
+	<div class="container">
+
+		<div th:insert="layouts/header :: header"></div>
+
+		<h1>Formulario de Carga de Producto</h1>
+
+		<form id="formProducto" th:object="${unProducto}"
+			th:action="${editMode}?@{/producto/modificar}:@{/producto/guardar}"
+			method="post">
+
+			<div class="form-group row">
+				<label for="codigo" class="col-sm-2 col-form-label">Codigo</label>
+				<div class="col-sm-10">
+					<input type="number" id="codigo" class="form-control"
+						th:field="*{codProducto}" required>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+				<div class="col-sm-10">
+					<input type="text" id="nombre" class="form-control"
+						th:field="*{nombre}" required>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="precio" class="col-sm-2 col-form-label">Precio</label>
+				<div class="col-sm-10">
+					<input type="number" id="precio" class="form-control"
+						th:field="*{precio}">
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="marca" class="col-sm-2 col-form-label">Marca</label>
+				<div class="col-sm-10">
+					<input type="text" id="marca" class="form-control"
+						th:field="*{marca}" required>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="stock" class="col-sm-2 col-form-label">Stock</label>
+				<div class="col-sm-10">
+					<input type="number" id="stock" class="form-control"
+						th:field="*{stock}">
+				</div>
+			</div>
+
+			<div>
+				<input type="submit" class="btn btn-success btn-block"
+					th:value="${editMode}?'Modificar Producto':'Crear Producto'">
+				<!-- <button type="submit" class="btn btn-primary" value="Agregar">Agregar</button> -->
+			</div>
+		</form>
+	
+		<br>
+		<h3>Lista de Productos</h3>
+		<br>
+		<div class="table-responsive">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th>Cod Producto</th>
+						<th>Nombre</th>
+						<th>Precio</th>
+						<th>Marca</th>
+						<th>Stock</th>
+						<th>Edición</th>
+					</tr>
+				</thead>
+				<tr th:if="${productos.empty}">
+					<td colspan="2">No hay productos en el listado</td>
+				</tr>
+				<tr th:each="prod : ${productos}">
+					<td th:text="${prod.codProducto}"></td>
+					<td th:text="${prod.nombre}"></td>
+					<td th:text="${prod.precio}"></td>
+					<td th:text="${prod.marca}"></td>
+					<td th:text="${prod.stock}"></td>
+					<td><a href="#"
+						th:href="@{'/producto/editar/'+${prod.codProducto}}"> <i
+							class="fa fa-edit"></i>
+					</a> <a
+						th:onclick="'javascript:confirmarEliminar(\''+${prod.codProducto}+'\');'">
+							<i class="fa fa-trash-alt"></i>
+					</a></td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog"
+			aria-labelledby="eliminarModal" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="eliminarModalTitulo">Confirmar
+							Eliminar</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<h6>Are you sure you want to delete this user?</h6>
+					</div>
+					<input type="hidden" id="identificadorProducto"
+						name="productoId" />
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary"
+							th:onclick="eliminarProducto()">Delete User</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div th:insert="layouts/footer :: footer"></div>
+	</div>
+	<script type="text/javascript">
+		function confirmarEliminar(id) {
+			$('#modalEliminar').modal('show');
+			$("#identificadorProducto").val(id);
+		}
+
+		function eliminarProducto() {
+			var id = $("#identificadorProducto").val();
+			window.location = "eliminarProducto/" + id;
+		}
+	</script>
+	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"
+		type="text/javascript" src="webjars/jquery/3.5.1/jquery.min.js"></script>
+	<script th:src="@{/webjars/popper.js/1.16.0/popper.min.js}"
+		type="text/javascript" src="webjars/popper.js/1.16.0/popper.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"
+		type="text/javascript"
+		src="webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

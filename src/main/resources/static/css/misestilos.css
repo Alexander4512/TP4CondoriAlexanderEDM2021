@@ -1,0 +1,25 @@
+.navmio{
+	background:#bdf38b;	
+	padding: 8px 16px 8px 16px;
+	text-align: center;
+}
+
+body {
+	
+	background-image: url("../img/chikorita.jpg");
+	background-position: center center;
+	background-repeat: no repeat;
+	background-attachment: fixed;
+	background-size:cover;
+}
+
+/*contenedor
+.contenedormio {	
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+	height: 900px;
+}
+*/

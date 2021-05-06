@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link th:rel="stylesheet" type="text/css" th:href="@{/css/misestilos.css}">
+	<link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}">
+	<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} " />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Iniciar Sesion</title>
+</head>
+<body>
+	<div class="container">
+		<div th:insert="layouts/header :: header"></div>
+		<div class="col-sm-4">
+			<div>
+				<h2>Acceder</h2>
+				<form>
+					<div class="form-group row">
+						<label for="idusuario">Nombre de Usuario</label>
+						<input type="text" class="form-control" id="idusuario" required>
+					</div>
+					<div class="form-group row">
+						<label for="contraseña">Password</label>
+						<input type="password" class="form-control" id="contraseña" required>
+					</div>
+					<div class="form-group form-check">
+						<input type="checkbox" class="form-check-input" id="recordarme">
+						<label class="form-check-label" for="recordarme">Recordar nombre de usuario</label>
+					</div>
+					<input type="submit" class="btn btn-success btn-block"  value="Acceder">
+					<br>
+					<a href="#">¿Olvidó su nombre de usuario o contraseña?</a>
+				</form>
+			</div>
+		</div>
+		<div th:insert="layouts/footer :: footer"></div>
+	</div>
+	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"		type="text/javascript" src="webjars/jquery/3.5.1/jquery.min.js"></script>
+	<script th:src="@{/webjars/popper.js/1.16.0/popper.min.js}"		type="text/javascript" src="webjars/popper.js/1.16.0/popper.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"	type="text/javascript"		src="webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
