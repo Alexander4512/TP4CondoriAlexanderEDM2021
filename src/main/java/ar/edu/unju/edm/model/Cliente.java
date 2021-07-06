@@ -6,23 +6,59 @@ import java.time.LocalDateTime;
 //import java.util.Date;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+@Entity
+@Table (name="clientes")
 @Component
 public class Cliente {
-	private String tipoDocumento;
-	private int nroDocumento;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column
+	private Integer idCliente;
+	@Column
+	@NotBlank(message="Ingrese Nombre y Apellido")
 	private String nombreApellido;
+	@Column
+	@Min(value=10000000, message="Debe ser Mayor a 10000000" )
+	@Max(value=99999999, message="Debe ser Menor a 99999999")
+	private int nroDocumento;
+	@Column
+	private String tipoDocumento;
+	@Column
 	private String email;
+	@Column
 	private String password;
+	@Column
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaNacimiento;
-	private int codigoAreaTelefono;
-	private int nroTelefono;
+	@Column
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate fechaUltimaCompra;
+	private LocalDate fechaUltimaCompra;	
+	@Column
+	private int codigoAreaTelefono;
+    @Column
+	private int numTelefono;
+	@Column
+	private String  numTelefonoCompleto;
+	
+	@OneToMany(mappedBy ="cliente", cascade = CascadeType.ALL)
+	private List<Venta> ventas = new ArrayList<Venta>();
 	
 	public Cliente() {
 		// TODO Auto-generated constructor stub
@@ -83,13 +119,37 @@ public class Cliente {
 	public void setCodigoAreaTelefono(int codigoAreaTelefono) {
 		this.codigoAreaTelefono = codigoAreaTelefono;
 	}
+	
+	public Integer getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	public int getNumTelefono() {
+		return numTelefono;
+	}
+
+	public void setNumTelefono(int numTelefono) {
+		this.numTelefono = numTelefono;
+	}
+
+	public String getNumTelefonoCompleto() {
+		return numTelefonoCompleto;
+	}
+
+	public void setNumTelefonoCompleto(String numTelefonoCompleto) {
+		this.numTelefonoCompleto = numTelefonoCompleto;
+	}
 
 	public int getNroTelefono() {
-		return nroTelefono;
+		return numTelefono;
 	}
 
 	public void setNroTelefono(int nroTelefono) {
-		this.nroTelefono = nroTelefono;
+		this.numTelefono = nroTelefono;
 	}
 
 	public LocalDate getFechaUltimaCompra() {

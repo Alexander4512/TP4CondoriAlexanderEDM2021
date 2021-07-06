@@ -7,7 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Cliente</title>
 </head>
-<body>
+<body class="body-tur">
 	<div class="container">
 	
 		<div th:insert="layouts/header :: header"></div>
@@ -105,6 +105,7 @@
 						<th>Cod- Telefono</th>
 		 				<th>Datos Adicionales</th>
 		 				<th>Edición</th>
+		 				<th>Eliminar</th>
 				    </tr>
 			    </thead>
 			    <tr th:if="${clientes.empty}">
@@ -121,15 +122,46 @@
 					<td th:text="${cli.codigoAreaTelefono}+'-' +${cli.nroTelefono}"></td>
 	 				<td th:text="${cli.getDatoAdicional()}"></td>
 	 				<td>
-		 				<a href="#" th:href="@{'/cliente/editar/'+${cli.nroDocumento}}">
-							<i class="fa fa-edit"></i>
-						</a>
+		 				<a href="#" th:href="@{'/cliente/editar/'+${cli.getIdCliente}}"><i class="fa fa-edit"></i></a>
+					</td>
+					<td align="center">
+						<a href="#" th:href="'javascript:confirmarEliminar(\''+${cli.getIdCliente}+'\');'"><i class="fa fa-trash-alt"></i></a>
 					</td>
 				</tr>
 			</table>
 		</div>
-		<div th:insert="layouts/footer :: footer"></div>
+
+	<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="eliminarModal" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="eliminarModalTitulo">Confirmar Eliminar</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body"><h6>Confirme si desea eliminar este cliente</h6></div>
+										<input type="hidden" id="identificadorClienteHiddenInput" name="userIdHiddenInput"/>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"	data-dismiss="modal">Cancelar</button>
+											<button type="button" class="btn btn-primary" th:onclick="eliminarUsuario()">Eliminar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+	<script type="text/javascript">
+function confirmarEliminar(id){
+	$('#modalEliminar').modal('show');
+	$("#identificadorClienteHiddenInput").val(id);
+}
+
+function eliminarUsuario(){
+	var id = $("#identificadorClienteHiddenInput").val();
+    window.location = "eliminarCliente/"+id;
+}
+</script>
 	</div>
+	<div th:insert="layouts/footer :: footer"></div>	
 	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"		type="text/javascript" src="webjars/jquery/3.5.1/jquery.min.js"></script>
 	<script th:src="@{/webjars/popper.js/1.16.0/popper.min.js}"		type="text/javascript" src="webjars/popper.js/1.16.0/popper.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"	type="text/javascript"		src="webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>

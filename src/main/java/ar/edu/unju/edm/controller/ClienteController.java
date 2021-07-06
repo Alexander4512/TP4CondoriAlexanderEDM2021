@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import ar.edu.unju.edm.model.Cliente;
+//import ar.edu.unju.edm.model.Producto;
 import ar.edu.unju.edm.service.IClienteService;
 
 @Controller
@@ -19,7 +20,7 @@ public class ClienteController {
 	private static final Log LOGGER = LogFactory.getLog(ClienteController.class);
 	
 	@Autowired
-	@Qualifier("unImp")
+	@Qualifier("impmysql")
 	IClienteService clienteService;
 	
 	@GetMapping("/cliente/mostrar")
@@ -29,15 +30,17 @@ public class ClienteController {
 		return("cliente");
 	}
 	
-	@GetMapping("/cliente/editar/{nroDocumento}")
-	public String editarCliente(Model model, @PathVariable(name="nroDocumento") int dni) throws Exception {
+	@GetMapping("/cliente/editar/{idCliente}")
+	public String editarCliente(Model model, @PathVariable(name="idCliente") int id) throws Exception{
 		try {
-			Cliente clienteEncontrado = clienteService.encontrarUnCliente(dni);
-			model.addAttribute("unCliente", clienteEncontrado);	
+			//permite realizar una accion, y si ocurre error no se cae el program
+			Cliente clienteEncontrado = clienteService.encontrarUnCliente(id);
+			model.addAttribute("unCliente", clienteEncontrado);
 			model.addAttribute("editMode", "true");
 		}
-		catch (Exception e) {
-			model.addAttribute("formUsuarioErrorMessage",e.getMessage());
+		catch(Exception e)
+		{//pasar excepcione a html
+			model.addAttribute("formUsuarioErrorMessage", e.getMessage());
 			model.addAttribute("unCliente", clienteService.crearCliente());
 			model.addAttribute("editMode", "false");
 		}
@@ -47,7 +50,6 @@ public class ClienteController {
 
 	@PostMapping("/cliente/guardar")
 	public String guardarNuevoCliente(@ModelAttribute("unCliente") Cliente nuevoCliente, Model model) {		
-		LOGGER.info("METHOD: ingresando el metodo Guardar");
 		clienteService.guardarCliente(nuevoCliente);		
 		LOGGER.info("Tamaño del Listado: "+ clienteService.obtenerTodosClientes().size());
 		return "redirect:/cliente/mostrar";
@@ -67,5 +69,17 @@ public class ClienteController {
 		}
 		model.addAttribute("clientes", clienteService.obtenerTodosClientes());
 		return("cliente");
+	}
+	
+	@GetMapping("/cliente/eliminarCliente/{idCliente}")
+	public String eliminarCliente(Model model, @PathVariable(name="idCliente") int id) {
+		LOGGER.info("METHOD: ingresando el metodo Eliminar");
+		try {
+			clienteService.eliminarCliente(id);			
+		}
+		catch(Exception e){
+			model.addAttribute("listErrorMessage",e.getMessage());
+		}			
+		return "redirect:/cliente/mostrar";
 	}
 }
