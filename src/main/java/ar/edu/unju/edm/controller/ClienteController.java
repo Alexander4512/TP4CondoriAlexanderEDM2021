@@ -30,8 +30,8 @@ public class ClienteController {
 		return("cliente");
 	}
 	
-	@GetMapping("/cliente/editar/{idCliente}")
-	public String editarCliente(Model model, @PathVariable(name="idCliente") int id) throws Exception{
+	@GetMapping("/cliente/editar/{nroDocumento}")
+	public String editarCliente(Model model, @PathVariable(name="nroDocumento") int id) throws Exception{
 		try {
 			//permite realizar una accion, y si ocurre error no se cae el program
 			Cliente clienteEncontrado = clienteService.encontrarUnCliente(id);

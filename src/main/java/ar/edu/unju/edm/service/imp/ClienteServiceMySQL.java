@@ -45,7 +45,7 @@ public class ClienteServiceMySQL implements IClienteService{
 	@Override
 	public void modificarCliente(Cliente clienteModificado) throws Exception{
 		// TODO Auto-generated method stub
-		Cliente clienteAModificar = clienteDAO.findById(clienteModificado.getIdCliente()).orElseThrow(()->new Exception("El Cliente no fue encontrado"));
+		Cliente clienteAModificar = clienteDAO.findByNroDocumento(clienteModificado.getNroDocumento()).orElseThrow(()->new Exception("El Cliente no fue encontrado"));
 		cambiarCliente(clienteModificado, clienteAModificar);
 		clienteDAO.save(clienteAModificar);
 	}
